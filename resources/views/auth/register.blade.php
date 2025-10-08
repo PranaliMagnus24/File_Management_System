@@ -16,13 +16,10 @@
         <label for="name" class="form-label">Full Name</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fas fa-user"></i></span>
-          <input type="text" class="form-control @error('name') is-invalid @enderror"
+          <input type="text" class="form-control"
                  id="name" name="name" value="{{ old('name') }}"
                  placeholder="Enter your full name">
         </div>
-        @error('name')
-          <div class="text-danger small mt-1">{{ $message }}</div>
-        @enderror
       </div>
 
       <!-- Email Input -->
@@ -30,13 +27,10 @@
         <label for="email" class="form-label">Email Address</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-          <input type="email" class="form-control @error('email') is-invalid @enderror"
+          <input type="email" class="form-control"
                  id="email" name="email" value="{{ old('email') }}"
                  placeholder="Enter your email">
         </div>
-        @error('email')
-          <div class="text-danger small mt-1">{{ $message }}</div>
-        @enderror
       </div>
 
       <!-- Password Input -->
@@ -44,7 +38,7 @@
         <label for="password" class="form-label">Password</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fas fa-lock"></i></span>
-          <input type="password" class="form-control @error('password') is-invalid @enderror"
+          <input type="password" class="form-control"
                  id="password" name="password" placeholder="Create password"
                  oninput="checkPasswordStrength(this.value)">
           <button type="button" class="input-group-text toggle-password">
@@ -52,9 +46,6 @@
           </button>
         </div>
         <div class="password-strength" id="passwordStrength"></div>
-        @error('password')
-          <div class="text-danger small mt-1">{{ $message }}</div>
-        @enderror
         <small class="form-text text-muted">
           Use 8+ characters with mix of letters, numbers & symbols
         </small>
@@ -79,15 +70,12 @@
       <!-- Terms and Conditions -->
       <div class="mb-3">
         <div class="form-check">
-          <input class="form-check-input @error('terms') is-invalid @enderror"
+          <input class="form-check-input"
                  type="checkbox" name="terms" id="terms">
           <label class="form-check-label" for="terms">
             I agree to the <a href="#" class="text-decoration-none">Terms & Conditions</a>
           </label>
         </div>
-        @error('terms')
-          <div class="text-danger small mt-1">{{ $message }}</div>
-        @enderror
       </div>
 
       <!-- Submit Button -->

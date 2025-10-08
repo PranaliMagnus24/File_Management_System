@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GeneralSetting;
 use Illuminate\Http\RedirectResponse;
+use Str;
 
 class GeneralSettingController extends Controller
 {
@@ -67,6 +68,6 @@ class GeneralSettingController extends Controller
         }
 
         $save->save();
-        return redirect()->route('create.generalSetting')->with('success', 'General Settings created successfully!');
+        return redirect()->route('admin.create.generalSetting')->with('success', 'General Settings created successfully!');
     }
 }

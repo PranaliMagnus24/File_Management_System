@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="card mt-3">
                 <div class="card-body">
-                    <form class="row g-3 mt-3" method="POST" action="{{ route('store.generalSetting')}}" enctype="multipart/form-data">
+                    <form class="row g-3 mt-3" method="POST" action="{{ route('admin.store.generalSetting')}}" enctype="multipart/form-data">
                         @csrf
                 <div class="row mb-3">
                     <div class="col-md-6">

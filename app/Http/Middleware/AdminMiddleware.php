@@ -15,19 +15,19 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    // public function handle(Request $request, Closure $next): Response
-    // {
-    //     if (Auth::check()) {
-    //         $user = Auth::user();
-    //         $userRoles = $user->roles->pluck('name')->toArray();
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $userRoles = $user->roles->pluck('name')->toArray();
 
-    //         if (!empty($userRoles)) {
-    //             return $next($request);
-    //         }
+            if (!empty($userRoles)) {
+                return $next($request);
+            }
 
-    //         abort(403, "User does not have the correct ROLE");
-    //     }
+            abort(403, "User does not have the correct ROLE");
+        }
 
-    //     abort(401);
-    // }
+        abort(401);
+    }
 }

@@ -16,26 +16,29 @@ class RoleManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-             $roles = Role::query()->orderBy('created_at', 'desc');
+            $roles = Role::query()->orderBy('created_at', 'desc');
 
-             return DataTables::eloquent($roles)
-                 ->addIndexColumn()
-                 ->editColumn('name', fn($role) => ucfirst($role->name))
-                 ->addColumn('action', function ($role) {
-                     $editUrl = route('admin.roles.edit', $role->id);
-                     $deleteUrl = route('admin.roles.destroy', $role->id);
-                     $permUrl = route('admin.roles.permissions', $role->id);
+            return DataTables::eloquent($roles)
+                ->addIndexColumn()
+                ->editColumn('name', fn($role) => '<span class="">' . ucfirst($role->name) . '</span>')
+                ->addColumn('action', function ($role) {
+                    $permUrl = route('admin.roles.permissions', $role->id);
 
-                     $buttons = '<a href="' . $permUrl . '" class="btn btn-primary btn-sm">Add / Edit Role Permission</a> ';
+                    $buttons = '<a href="' . $permUrl . '" class="btn btn-primary btn-sm"><i class="bi bi-shield-lock me-1"></i>Permissions</a> ';
 
-                         $buttons .= '<a href="' . $editUrl . '" class="btn btn-success btn-sm edit-role"><i class="bi bi-pencil-square"></i></a> ';
-                         $buttons .= '<a href="' . $deleteUrl . '" class="btn btn-danger btn-sm delete-confirm"><i class="bi bi-trash3-fill"></i></a>';
+                     if (Auth::user()->can('role-update')) {
+                    $buttons .= '<button class="btn btn-success btn-sm edit-role" data-id="' . $role->id . '"><i class="bi bi-pencil-square"></i></button> ';
+                     }
+                     if (Auth::user()->can('role-delete')) {
 
-                     return $buttons;
-                 })
-                 ->rawColumns(['action'])
-                 ->make(true);
-         }
+                    $buttons .= '<button class="btn btn-danger btn-sm delete-role" data-id="' . $role->id . '" data-name="' . $role->name . '"><i class="bi bi-trash3-fill"></i></button>';
+                     }
+
+                    return $buttons;
+                })
+                ->rawColumns(['name', 'action'])
+                ->make(true);
+        }
         return view('admin.Settings.RoleManagement.index');
     }
 
@@ -43,27 +46,23 @@ class RoleManagementController extends Controller
     {
         $request->validate([
             'name' => 'required|string|unique:roles,name',
-            'permission' => 'nullable|array'
         ]);
 
         $role = Role::create(['name' => $request->name]);
 
-        if ($request->filled('permission')) {
-            $role->syncPermissions($request->permission);
-        }
-
-        return redirect()->back()->with('success', 'Role created and permissions assigned successfully!');
+        return response()->json(['success' => 'Role created successfully!']);
     }
-    public function edit($id)
-{
-    $role = Role::findOrFail($id);
-    return response()->json([
-        'status' => 'success',
-        'data' => $role
-    ]);
-}
 
-        public function update(Request $request, $id): RedirectResponse
+    public function edit($id)
+    {
+        $role = Role::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $role
+        ]);
+    }
+
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|unique:roles,name,' . $id,
@@ -74,58 +73,65 @@ class RoleManagementController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect('roles')->with('success', 'Role updated successfully!');
+        return response()->json(['success' => 'Role updated successfully!']);
     }
 
-     public function destroy($id)
+    public function destroy($id)
     {
         $role = Role::findOrFail($id);
-        $role->delete();
-        return redirect('roles')->with('success', 'Role deleted successfully!');
-    }
-    public function permissionToRole($id)
-{
-    $permissions = Permission::all();
-    $role = Role::findOrFail($id);
 
-    // Fetch assigned permission IDs
-    $rolePermissions = DB::table('role_has_permissions')
-        ->where('role_id', $role->id)
-        ->pluck('permission_id')
-        ->toArray();
-
-    // Prepare modules and actions
-    $modules = [];
-    $actions = ['create', 'list', 'edit', 'update', 'view', 'delete'];
-
-    foreach ($permissions as $permission) {
-        $parts = explode('-', $permission->name);
-
-        if (count($parts) === 2) {
-            [$module, $action] = $parts;
-            $modules[$module][$action] = [
-                'id' => $permission->id,
-                'checked' => in_array($permission->id, $rolePermissions)
-            ];
+        // Check if role has users assigned
+        if ($role->users()->count() > 0) {
+            return response()->json(['error' => 'Cannot delete role. There are users assigned to this role.'], 422);
         }
+
+        $role->delete();
+
+        return response()->json(['success' => 'Role deleted successfully!']);
     }
 
-    return view('admin.Settings.RoleManagement.add-permission', compact('role', 'modules', 'actions'));
-}
+    public function permissionToRole($id)
+    {
+        $permissions = Permission::all();
+        $role = Role::findOrFail($id);
 
-public function updatePermissionToRole(Request $request, $id)
-{
-    $request->validate([
-        'permission' => 'required|array'
-    ]);
+        // Fetch assigned permission IDs
+        $rolePermissions = DB::table('role_has_permissions')
+            ->where('role_id', $role->id)
+            ->pluck('permission_id')
+            ->toArray();
 
-    $role = Role::findOrFail($id);
+        // Prepare modules and actions
+        $modules = [];
+        $actions = ['create', 'list', 'edit', 'update', 'view', 'delete'];
 
-    $permissions = Permission::whereIn('id', $request->permission)->get();
+        foreach ($permissions as $permission) {
+            $parts = explode('-', $permission->name);
 
-    $role->syncPermissions($permissions);
+            if (count($parts) === 2) {
+                [$module, $action] = $parts;
+                $modules[$module][$action] = [
+                    'id' => $permission->id,
+                    'checked' => in_array($permission->id, $rolePermissions)
+                ];
+            }
+        }
 
-    return redirect()->route('admin.roles.index')->with('success', 'Permissions added to role successfully!');
-}
+        return view('admin.Settings.RoleManagement.add-permission', compact('role', 'modules', 'actions'));
+    }
 
+    public function updatePermissionToRole(Request $request, $id)
+    {
+        $request->validate([
+            'permission' => 'required|array'
+        ]);
+
+        $role = Role::findOrFail($id);
+
+        $permissions = Permission::whereIn('id', $request->permission)->get();
+
+        $role->syncPermissions($permissions);
+
+        return redirect()->route('admin.roles.index')->with('success', 'Permissions added to role successfully!');
+    }
 }

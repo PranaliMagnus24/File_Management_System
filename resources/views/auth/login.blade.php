@@ -16,13 +16,10 @@
         <label for="email" class="form-label">Email Address</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-          <input type="email" class="form-control @error('email') is-invalid @enderror"
+          <input type="email" class="form-control"
                  id="email" name="email" value="{{ old('email') }}"
                  placeholder="Enter your email">
         </div>
-        @error('email')
-          <div class="text-danger small mt-1">{{ $message }}</div>
-        @enderror
       </div>
 
       <!-- Password Input -->
@@ -30,15 +27,12 @@
         <label for="password" class="form-label">Password</label>
         <div class="input-group">
           <span class="input-group-text"><i class="fas fa-lock"></i></span>
-          <input type="password" class="form-control @error('password') is-invalid @enderror"
+          <input type="password" class="form-control"
                  id="password" name="password" placeholder="Enter your password">
           <button type="button" class="input-group-text toggle-password">
             <i class="fas fa-eye"></i>
           </button>
         </div>
-        @error('password')
-          <div class="text-danger small mt-1">{{ $message }}</div>
-        @enderror
       </div>
 
       <!-- Remember Me & Forgot Password -->

@@ -1,11 +1,13 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
-
+    @php
+    $getSetting = App\Models\GeneralSetting::first();
+@endphp
 <div class="d-flex align-items-center justify-content-between">
     <a href="#" class="logo d-flex align-items-center">
-        {{-- @if($getSetting && $getSetting->header_logo)
+        @if($getSetting && $getSetting->header_logo)
             <img src="{{ url('upload/general_setting/' . $getSetting->header_logo) }}" alt="{{ $getSetting->website_name }} Logo" style="max-height: 40px;">
-        @endif --}}
-        {{-- <span class="d-none d-lg-block ms-2">{{ $getSetting->website_name ?? 'Default Website Name' }}</span> --}}
+        @endif
+        <span class="d-none d-lg-block ms-2">{{ $getSetting->website_name ?? 'Default Website Name' }}</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
 </div><!-- End Logo -->
