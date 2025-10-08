@@ -1,5 +1,5 @@
 @extends('frontend.layouts.layout')
-@section('title', 'Login - Logic Partners')
+@section('title', 'FMS-Login')
 @section('content')
 <div class="auth-card">
   <div class="auth-header">
@@ -18,7 +18,7 @@
           <span class="input-group-text"><i class="fas fa-envelope"></i></span>
           <input type="email" class="form-control @error('email') is-invalid @enderror"
                  id="email" name="email" value="{{ old('email') }}"
-                 placeholder="Enter your email" required>
+                 placeholder="Enter your email">
         </div>
         @error('email')
           <div class="text-danger small mt-1">{{ $message }}</div>
@@ -31,7 +31,7 @@
         <div class="input-group">
           <span class="input-group-text"><i class="fas fa-lock"></i></span>
           <input type="password" class="form-control @error('password') is-invalid @enderror"
-                 id="password" name="password" placeholder="Enter your password" required>
+                 id="password" name="password" placeholder="Enter your password">
           <button type="button" class="input-group-text toggle-password">
             <i class="fas fa-eye"></i>
           </button>

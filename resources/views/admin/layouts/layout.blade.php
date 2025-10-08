@@ -120,14 +120,11 @@
 <script src="{{ asset('admin/assets/vendor/datatables/pdfmake.min.js') }}"></script>
 <script src="{{ asset('admin/assets/vendor/datatables/vfs_fonts.js') }}"></script>
 <script src="{{ asset('admin/assets/vendor/select2/select2.min.js') }}"></script>
-<script src="{{ asset('admin/assets/vendor/htm-docx/html-docx.min.js') }}"></script>
+{{-- <script src="{{ asset('admin/assets/vendor/htm-docx/html-docx.min.js') }}"></script> --}}
 
   <!-- Template Main JS File -->
   <script src="{{ asset('admin/assets/js/main.js') }}"></script>
-  <script src="{{ asset('admin/assets/js/datatable.js') }}"></script>
-  <script src="{{ asset('admin/assets/js/quotation-calculation.js')}}"></script>
-  <script src="{{ asset('admin/assets/js/property.js')}}"></script>
-
+  <script src="{{ asset('admin/assets/js/datalist.js') }}"></script>
 </body>
 
 </html>

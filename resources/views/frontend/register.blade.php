@@ -1,5 +1,5 @@
 @extends('frontend.layouts.layout')
-@section('title', 'Register - Logic Partners')
+@section('title', 'FMS-Register')
 @section('content')
 <div class="auth-card">
   <div class="auth-header">
@@ -18,7 +18,7 @@
           <span class="input-group-text"><i class="fas fa-user"></i></span>
           <input type="text" class="form-control @error('name') is-invalid @enderror"
                  id="name" name="name" value="{{ old('name') }}"
-                 placeholder="Enter your full name" required>
+                 placeholder="Enter your full name">
         </div>
         @error('name')
           <div class="text-danger small mt-1">{{ $message }}</div>
@@ -32,7 +32,7 @@
           <span class="input-group-text"><i class="fas fa-envelope"></i></span>
           <input type="email" class="form-control @error('email') is-invalid @enderror"
                  id="email" name="email" value="{{ old('email') }}"
-                 placeholder="Enter your email" required>
+                 placeholder="Enter your email">
         </div>
         @error('email')
           <div class="text-danger small mt-1">{{ $message }}</div>
@@ -45,7 +45,7 @@
         <div class="input-group">
           <span class="input-group-text"><i class="fas fa-lock"></i></span>
           <input type="password" class="form-control @error('password') is-invalid @enderror"
-                 id="password" name="password" placeholder="Create password" required
+                 id="password" name="password" placeholder="Create password"
                  oninput="checkPasswordStrength(this.value)">
           <button type="button" class="input-group-text toggle-password">
             <i class="fas fa-eye"></i>
@@ -67,7 +67,7 @@
           <span class="input-group-text"><i class="fas fa-lock"></i></span>
           <input type="password" class="form-control"
                  id="password_confirmation" name="password_confirmation"
-                 placeholder="Confirm your password" required
+                 placeholder="Confirm your password"
                  oninput="checkPasswordMatch()">
           <button type="button" class="input-group-text toggle-password">
             <i class="fas fa-eye"></i>
@@ -80,7 +80,7 @@
       <div class="mb-3">
         <div class="form-check">
           <input class="form-check-input @error('terms') is-invalid @enderror"
-                 type="checkbox" name="terms" id="terms" required>
+                 type="checkbox" name="terms" id="terms">
           <label class="form-check-label" for="terms">
             I agree to the <a href="#" class="text-decoration-none">Terms & Conditions</a>
           </label>
