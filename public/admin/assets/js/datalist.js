@@ -347,6 +347,8 @@ if ($('.userList').length) {
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
+                    { data: 'phone', name: 'phone' },
+        { data: 'department', name: 'department' },
             { data: 'roles', name: 'roles', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
@@ -422,18 +424,21 @@ if ($('.userList').length) {
         $.ajax({
             url: editUserUrl.replace(':id', userId),
             type: 'GET',
-            success: function(response) {
-                // Populate form fields
-                $('#edit_user_id').val(response.user.id);
-                $('#edit_name').val(response.user.name);
-                $('#edit_email').val(response.user.email);
+           success: function(response) {
+    // Populate form fields
+    $('#edit_user_id').val(response.user.id);
+    $('#edit_name').val(response.user.name);
+    $('#edit_email').val(response.user.email);
+    $('#edit_phone').val(response.user.phone ?? '');
+    $('#edit_department_id').val(response.user.department_id ?? '');
 
-                // Set selected roles
-                $('#edit_roles').val(response.userRoles);
+    // Set selected roles
+    $('#edit_roles').val(response.userRoles);
 
-                // Show modal
-                $('#editUserModal').modal('show');
-            },
+    // Show modal
+    $('#editUserModal').modal('show');
+},
+
             error: function(xhr) {
                 showAlert('Error!', 'Failed to load user data.', 'error');
             }
@@ -485,10 +490,18 @@ if ($('.userList').length) {
                     $('.invalid-feedback').text('');
 
                     // Show new errors
-                    $.each(errors, function(key, value) {
-                        $(`#edit_${key}`).addClass('is-invalid');
-                        $(`#edit_${key}Error`).text(value[0]);
-                    });
+                   $.each(errors, function(key, value) {
+    var inputId = key;
+    // for mapping to edit input ids: e.g. department_id => edit_department_id
+    if ($('#edit_' + key).length) {
+        $(`#edit_${key}`).addClass('is-invalid');
+        $(`#edit_${key}Error`).text(value[0]);
+    } else if ($(`#${key}`).length) {
+        $(`#${key}`).addClass('is-invalid');
+        $(`#${key}Error`).text(value[0]);
+    }
+});
+
                 } else {
                     showAlert('Error!', 'Failed to update user.', 'error');
                 }

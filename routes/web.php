@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Backend\Department\DepartmentController;
+use App\Http\Controllers\Backend\Files\FileManagementController;
 use App\Http\Controllers\Backend\MasterSettings\GeneralSetting\GeneralSettingController;
 use App\Http\Controllers\Backend\MasterSettings\RolePermission\PermissionManagementController;
 use App\Http\Controllers\Backend\MasterSettings\RolePermission\RoleManagementController;
 use App\Http\Controllers\Backend\MasterSettings\RolePermission\UserManagementController;
+use App\Http\Controllers\Backend\Racks\RackManagementController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
@@ -50,6 +52,16 @@ Route::middleware(['auth', 'verified','isAdmin'])->group(function () {
         Route::get('departments/{id}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
         Route::put('departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
         Route::delete('departments/{id}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
+
+        //Rack Management
+        Route::get('racks', [RackManagementController::class, 'index'])->name('racks.index');
+        Route::post('racks', [RackManagementController::class, 'store'])->name('racks.store');
+        Route::get('racks/{id}/edit', [RackManagementController::class, 'edit'])->name('racks.edit');
+        Route::put('racks/{id}', [RackManagementController::class, 'update'])->name('racks.update');
+        Route::delete('racks/{id}', [RackManagementController::class, 'destroy'])->name('racks.destroy');
+
+        //File Management
+        Route::get('files', [FileManagementController::class, 'index'])->name('files.index');
     });
 });
 Route::middleware('auth')->group(function () {

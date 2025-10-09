@@ -3,19 +3,37 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="#">
+            <a class="nav-link " href="{{ route('dashboard') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
+        {{-- <li class="nav-item">
+            <a class="nav-link " href="{{url('/')}}">
+                <i class="bi bi-house-door"></i>
+                <span>Home</span>
+            </a>
+        </li> --}}
 
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('admin.departments.index') }}">
-                <i class="bi bi-card-heading"></i>
+                <i class="bi bi-building"></i>
                 <span>Department Management</span>
             </a>
         </li><!-- End Department Management -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('admin.racks.index') }}">
+                <i class="bi bi-hdd-rack"></i>
+                <span>Racks Management</span>
+            </a>
+        </li><!-- End Racks Management -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('admin.files.index') }}">
+                 <i class="bi bi-folder2-open"></i>
+                <span>Files Management</span>
+            </a>
+        </li><!-- End Files Management -->
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">

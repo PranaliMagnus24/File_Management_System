@@ -31,6 +31,10 @@ class User extends Authenticatable
         'deleted_by',
     ];
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

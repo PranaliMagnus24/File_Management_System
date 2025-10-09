@@ -54,14 +54,14 @@
                                 <div class="invalid-feedback" id="phoneError"></div>
                             </div>
                             <div class="col-md-6">
-                                <label for="department" class="form-label">Department</label>
-                                <select name="department" id="department" class="form-control">
-                                    <option value="" disabled selected>-- Select --</option>
+                                <label for="department_id" class="form-label">Department</label>
+                                <select name="department_id" id="department_id" class="form-control">
+                                    <option value="" selected>-- Select --</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback" id="departmentError"></div>
+                                <div class="invalid-feedback" id="department_idError"></div>
                             </div>
 
                         </div>
@@ -88,6 +88,8 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Phone</th>
+        <th>Department</th>
                                 <th>Roles</th>
                                 <th>Action</th>
                             </tr>
@@ -146,6 +148,25 @@
                             <div class="invalid-feedback" id="edit_rolesError"></div>
                         </div>
                     </div>
+                    <div class="row mb-3">
+    <div class="col-md-6">
+        <label for="edit_phone" class="form-label">Phone</label>
+        <input type="text" class="form-control" id="edit_phone" name="phone"
+            placeholder="Enter phone number">
+        <div class="invalid-feedback" id="edit_phoneError"></div>
+    </div>
+    <div class="col-md-6">
+        <label for="edit_department_id" class="form-label">Department</label>
+        <select name="department_id" id="edit_department_id" class="form-control">
+            <option value="" disabled>-- Select --</option>
+            @foreach ($departments as $department)
+                <option value="{{ $department->id }}">{{ $department->name }}</option>
+            @endforeach
+        </select>
+        <div class="invalid-feedback" id="edit_department_idError"></div>
+    </div>
+</div>
+
                 </form>
             </div>
             <div class="modal-footer">
